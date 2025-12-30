@@ -10,6 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Slf4j
 @Controller
@@ -46,5 +47,37 @@ public class ArticleController {
         model.addAttribute("article", articleEntity);
         // 뷰페이지 반환
         return "articles/show";
+    }
+
+    @GetMapping("/articles/{id}/edit")
+    public String edit(@PathVariable long id, Model model){
+        Article articleEntity = articleRepository.findById(id).orElse(null);
+        model.addAttribute("article", articleEntity);
+        return "articles/edit";
+    }
+
+    @PostMapping("/articles/update")
+    public String update(ArticleForm form){
+        log.info(form.toString());
+        // DTO를 엔티티로 변환
+        Article articleEntity = form.toEntity();
+        // 엔티티를 디비에 저장
+        Article target = articleRepository.findById(articleEntity.getId()).orElse(null);
+
+        if (target != null) {
+            articleRepository.save(articleEntity);
+        }
+        // 수정결과를 뷰에 적용
+        return "redirect:/articles/" + articleEntity.getId();
+    }
+
+    @GetMapping("/articles/{id}/delete")
+    public String delete(@PathVariable Long id, RedirectAttributes rttr){
+        Article target = articleRepository.findById(id).orElse(null);
+        if (target != null) {
+            articleRepository.delete(target);
+            rttr.addFlashAttribute("msg", "삭제완료");
+        }
+        return "redirect:/articles";
     }
 }
