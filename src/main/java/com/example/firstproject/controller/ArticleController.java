@@ -17,6 +17,13 @@ public class ArticleController {
     @Autowired
     private ArticleRepository articleRepository;
 
+    @GetMapping("/articles")
+    public String showAllArticles(Model model){
+        Iterable<Article> articleEntities = articleRepository.findAll();
+        model.addAttribute("articleList", articleEntities);
+        return "articles/index";
+    }
+
     @GetMapping("/articles/new")
     public String newArticleForm(){
         return "articles/new";
@@ -24,9 +31,7 @@ public class ArticleController {
 
     @PostMapping("/articles/create")
     public String createArticle(ArticleForm form) {
-        log.info(form.toString());
         Article article = form.toEntity();
-        log.info(article.toString());
         Article saved = articleRepository.save(article);
         log.info(saved.toString());
         return "redirect:/articles/new";
