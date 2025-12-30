@@ -34,7 +34,7 @@ public class ArticleController {
         Article article = form.toEntity();
         Article saved = articleRepository.save(article);
         log.info(saved.toString());
-        return "redirect:/articles/new";
+        return "redirect:/articles/" + saved.getId();
     }
 
     @GetMapping("/articles/{id}")
