@@ -17,10 +17,23 @@ import java.util.List;
 public class ArticleApiController {
     @Autowired
     private ArticleService articleService;
+    @Autowired
+    private ArticleRepository articleRepository;
 
     @GetMapping("/api/articles")
     public List<Article> index(){
-        return articleService.index;
+        return articleService.index();
+    }
+
+    @GetMapping("/api/articles/{id}")
+    public Article show(@PathVariable Long id){
+        return articleService.show(id);
+    }
+
+    @PostMapping("/api/articles")
+    public ResponseEntity<Article> create(@RequestBody ArticleForm dto){
+        Article created = articleService.create(dto);
+        return (created != null) ? ResponseEntity.status(HttpStatus.OK).body(created) : ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
     }
 
 
