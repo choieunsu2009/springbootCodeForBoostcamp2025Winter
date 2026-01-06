@@ -48,6 +48,12 @@ public class ArticleApiController {
         return (deleted != null) ? ResponseEntity.status(HttpStatus.NO_CONTENT).build() : ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
     }
 
+    @PostMapping("/api/transaction-test")
+    public ResponseEntity<List<Article>> transaction(@RequestBody List<ArticleForm> dtos){
+        List<Article> createdList = articleService.createArticles(dtos);
+        return (createdList != null) ? ResponseEntity.status(HttpStatus.OK).body(createdList) : ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+    }
+
 //    @Autowired
 //    private ArticleRepository articleRepository;
 //
