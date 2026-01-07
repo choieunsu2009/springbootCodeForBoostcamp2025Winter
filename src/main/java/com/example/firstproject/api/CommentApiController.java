@@ -31,10 +31,11 @@ public class CommentApiController {
         return (created != null) ? ResponseEntity.status(HttpStatus.OK).body(created) : ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
     }
 
-    @PatchMapping("/comments/{id}")
-    public ResponseEntity<Comment> editComment(@PathVariable Long id, @RequestBody CommentForm dto){
+    @PatchMapping("/articles/comments/{id}")
+    public String editComment(@PathVariable Long id, @RequestBody CommentForm dto){
         Comment editedCmt = commentService.editCommentByCommentId(id, dto);
-        return (editedCmt != null) ? ResponseEntity.status(HttpStatus.OK).body(editedCmt) : ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        log.info(editedCmt.toString());
+        return (editedCmt != null) ? "OK" : "NO";
     }
 
     @DeleteMapping("/comments/{id}")
