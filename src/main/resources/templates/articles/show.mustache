@@ -1,5 +1,5 @@
 {{>layouts/header}}
-
+<div style="width: 80%; margin: 0 auto; padding-top: 10px">
 <table class="table">
     <thead>
     <tr>
@@ -22,4 +22,7 @@
 <a href="/articles/{{article.id}}/edit" class="btn btn-primary">Edit</a>
 <a href="/articles/{{article.id}}/delete" class="btn btn-danger">Delete</a>
 <a href="/articles" class="btn btn-light">Go To Article</a>
+
+{{>comments/_comments}}
+</div>
 {{>layouts/footer}}

@@ -1,8 +1,11 @@
 package com.example.firstproject.controller;
 
 import com.example.firstproject.dto.ArticleForm;
+import com.example.firstproject.dto.CommentForm;
 import com.example.firstproject.entity.Article;
+import com.example.firstproject.entity.Comment;
 import com.example.firstproject.repository.ArticleRepository;
+import com.example.firstproject.service.CommentService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -12,11 +15,15 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.util.List;
+
 @Slf4j
 @Controller
 public class ArticleController {
     @Autowired
     private ArticleRepository articleRepository;
+    @Autowired
+    private CommentService commentService;
 
     @GetMapping("/articles")
     public String showAllArticles(Model model){
@@ -39,12 +46,13 @@ public class ArticleController {
     }
 
     @GetMapping("/articles/{id}")
-    public String show(@PathVariable long id, Model model){
-        log.info("id = " + id);
+    public String show(@PathVariable Long id, Model model){
         // ID 조회해 데이터 가져오기
         Article articleEntity = articleRepository.findById(id).orElse(null);
+        Iterable<Comment> commentForms = commentService.getCommentByArticleId(id);
         // 모델에 데이터 등록
         model.addAttribute("article", articleEntity);
+        model.addAttribute("commentForm", commentForms);
         // 뷰페이지 반환
         return "articles/show";
     }

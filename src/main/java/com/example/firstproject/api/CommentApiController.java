@@ -1,24 +1,19 @@
-package com.example.firstproject.controller;
+package com.example.firstproject.api;
 
 import com.example.firstproject.dto.CommentForm;
 import com.example.firstproject.entity.Comment;
-import com.example.firstproject.repository.CommentRepository;
 import com.example.firstproject.service.CommentService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 @Slf4j
 @RestController
-public class CommentController {
+public class CommentApiController {
     @Autowired
     private CommentService commentService;
-
-    @Autowired
-    private CommentRepository commentRepository;
 
     @GetMapping("/articles/{articleId}/comments")
     public Iterable<Comment> showCommentByArticle(@PathVariable Long articleId){
