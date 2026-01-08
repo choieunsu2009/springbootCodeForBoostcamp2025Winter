@@ -13,3 +13,8 @@ INSERT INTO comment(article_id, nickname, body) values (2, 'tyui', '345678');
 INSERT INTO comment(article_id, nickname, body) values (3, 'qwer', '37645');
 INSERT INTO comment(article_id, nickname, body) values (3, 'asdf', 'weyrt');
 INSERT INTO comment(article_id, nickname, body) values (3, 'tyui', 'tryuk');
+
+ALTER TABLE comment
+    ADD CONSTRAINT fk_child_parent
+        FOREIGN KEY (article_id) REFERENCES article(id)
+            ON DELETE CASCADE;

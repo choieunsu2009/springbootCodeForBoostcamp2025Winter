@@ -1,9 +1,13 @@
 package com.example.firstproject.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.ToString;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @AllArgsConstructor
@@ -20,7 +24,19 @@ public class Article {
     @Column
     private String content;
 
+    @OneToMany(mappedBy = "article", cascade = CascadeType.REMOVE, orphanRemoval = true)
+    @ToString.Exclude
+    @JsonIgnore
+    private List<Comment> comments = new ArrayList<>();
+
     public Article() {
+    }
+
+
+    public Article(Long id, String title, String  content){
+        this.id = id;
+        this.title = title;
+        this.content = content;
     }
 
     public void patch(Article article) {
